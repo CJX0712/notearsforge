@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  gate:
+    name: lint + test + demo (py${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ["3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install dependencies (pinned)
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.lock.txt
+          python -m pip install "pytest>=8" "ruff==0.16.10" pytest-cov
+
+      - name: Ruff lint
+        run: python -m ruff check .
+
+      - name: Ruff format check
+        run: python -m ruff format --check .
+
+      - name: Pytest + coverage
+        run: python -m pytest -q -W ignore::UserWarning --cov=. --cov-report=term
+
+      - name: Demo smoke + determinism
+        run: python examples/run_demo.py
+
+      - name: Secret self-check
+        shell: bash
+        run: |
+          if git grep -nE "(sk-|api[_-]?key|token|secret|password)" -- '*.py' '*.md'; then
+            echo "::error::possible secret leaked"; exit 1
+          fi
+          echo "secret scan clean"

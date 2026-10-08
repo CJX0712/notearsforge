@@ -1,0 +1,7 @@
+# Pinned, installable lock (hand-verified against the venv used for this release).
+# These are the exact versions CI and Docker build from; do NOT let pip freeze
+# inject file:/// or local absolute paths -- a lock that cannot be installed
+# from PyPI is not a lock.
+numpy==2.5.3
+scipy==1.18.1
+scikit-learn==1.9.1

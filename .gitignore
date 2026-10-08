@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+*.so
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Testing / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+cov.xml
+
+# Tooling caches
+.ruff_cache/
+.mypy_cache/
+
+# Editor / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Data caches / model weights -- none committed (system is zero-weight, offline)
+*.npy
+*.npz
+*.pt
+*.ckpt
+*.bin
+data_cache/
+
+# Secrets -- never commit
+*.key
+*.pem
+secrets.json
+.env

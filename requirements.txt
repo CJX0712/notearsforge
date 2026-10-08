@@ -1,0 +1,5 @@
+# Runtime dependencies (world-class, cross-platform CPU wheels; zero compile,
+# zero weight download, zero network at runtime).
+numpy>=2.0
+scipy>=1.10
+scikit-learn>=1.5.0
